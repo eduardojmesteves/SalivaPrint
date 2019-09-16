@@ -6,61 +6,30 @@ from scipy import signal
 from matplotlib import pylab as plt
 
 ###PROFILE IMPORT
+data = pd.read_csv('data1.csv')
 
-data1 = pd.read_csv('C:/Users/Eduar/ownCloud/#PhD EDUARDO/Objectivos_Tarefas/T4–Análise do SalivaPrint/CE_py/data1.csv')
-print(data1)
+mw = data.mw
 
-data2 = pd.read_csv('C:/Users/Eduar/ownCloud/#PhD EDUARDO/Objectivos_Tarefas/T4–Análise do SalivaPrint/CE_py/data2.csv')
-#data4 = pd.read_csv('C:/Users/Eduar/ownCloud/#PhD EDUARDO/Objectivos_Tarefas/T4–Análise do SalivaPrint/CE_py/data4.csv')
-#data5 = pd.read_csv('C:/Users/Eduar/ownCloud/#PhD EDUARDO/Objectivos_Tarefas/T4–Análise do SalivaPrint/CE_py/data5.csv')
+data = data.drop(columns=['ix','mw'])
 
-#data0 = pd.read_excel('data0.xls')
+all_profiles = list(data.columns.values)
 
-plt.plot(data1.x, data1.y, data2.x, data2.y)
-#, data4.x, data4.y, data5.x, data5.y)
+master = all_profiles[0]
+
+master_profile = data[master]
+
+all_profiles_minus_actual = all_profiles.copy()
+all_profiles_minus_actual.remove(master)
+
+targets = data[all_profiles_minus_actual]
+
+f1 = plt.figure(0)
+for target in targets:
+    plt.plot(mw, targets[target])
+
+f2 = plt.figure(1)
+for target in targets:
+    dx = np.mean(np.diff(mw.values))
+    shift = (np.argmax(signal.correlate(master_profile, targets[target])) - len(targets[target])) * dx
+    plt.plot(mw + shift, targets[target])
 plt.show()
-
-#plt.plot(data1.x, data1.y)
-#plt.plot(data2.x, data2.y)
-#plt.plot(data4.x, data4.y)
-#plt.plot(data5.x, data5.y)
-
-plt.xlabel("Molecular Weight (kDa)")
-plt.ylabel("Fluorescence")
-
-#plt.show()
-
-# Under Development - Overlap Plot with color under curve
-#sns.pairplot(data1, x="x", y="y")
-#plt.show()
-
-
-################################################################################################
-
-
-###PEAK ALIGNMENT
-##  Method 1
-#plt.plot(data1.x, data1.y)
-for target in [data1, data2]:
-    dx = np.mean(np.diff(data1.x.values))
-    shift = (np.argmax(signal.correlate(data1.y, target.y)) - len(target.y)) * dx
-    plt.plot(target.x + shift, target.y)
-plt.show()
-
-
-##  Method 2
-#from scipy.constants import h
-
-#MW.py -h
-
-#from scipy.misc import electrocardiogram
-#from scipy.signal import find_peaks
-#print(electrocardiogram())
-
-
-#x = electrocardiogram()[9:120]
-#peaks, _ = find_peaks(x, height=30)
-#plt.plot(x)
-#plt.plot(peaks, x[peaks], "x")
-#plt.plot(np.zeros_like(x), "--", color="gray")
-#plt.show()
