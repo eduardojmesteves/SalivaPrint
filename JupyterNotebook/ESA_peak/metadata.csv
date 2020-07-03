@@ -1,0 +1,67 @@
+Sample,Age,Age_group,Gender,Height,Weight,BMI,BMI group,Smoke habits,Alcool habits,Menopause,Anticonceptionals,Blood type,RH type,Hipertension,Diabetes,Cardiac,Blood,Liver,Stomach,Kidney,Other diseases,Allergy,Radio or Cheical Therapy,Health problems score,Regular medication,Medication,Treatment last 30 days,Antibiotic,Diet type,PSR 1st,PSR 2nd,PSR 3th,PSR 4th,PSR 5th,PSR 6th,C,P,O,CPOD,Oral diagnostic
+D1122,10,<13,Male,138,31,16.27809284,Underweight,No,No,Man,Man,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1127,7,<13,Female,126,32,20.15621063,Normal weight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1132,8,<13,Female,127,34,21.08004216,Normal weight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1138,16,13-24,Female,164,59,21.93634741,Normal weight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,2,2,Health
+D1143,19,13-24,Female,162,49,18.67093431,Normal weight,No,Yes,No,Yes,NA,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1163,8,<13,Female,122,21,14.10911045,Underweight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1165,11,<13,Female,152,32,13.85041551,Underweight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1167,11,<13,Female,148,42,19.17457999,Normal weight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1172,8,<13,Male,131,29,16.89878212,Underweight,No,No,Man,Man,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1177,12,<13,Female,169,66,23.10843458,Normal weight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,1,1,Health
+D1179,11,<13,Female,144,39,18.80787037,Normal weight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,1,1,Health
+D1183,7,<13,Female,116,21,15.60642093,Underweight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1195,8,<13,Female,126,35,22.04585538,Normal weight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1199,9,<13,Male,142,33,16.36580044,Underweight,No,No,Man,Man,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1202,14,13-24,Male,163,48,18.06616734,Underweight,No,No,Man,Man,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1261,17,13-24,Female,153,52,22.2136785,Normal weight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,1,7,8,Health
+D1268,9,<13,Male,139,38,19.66771906,Normal weight,No,No,Man,Man,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,1,1,Health
+D1271,9,<13,Female,135,30,16.46090535,Underweight,No,No,No,NA,NA,NA,No,No,No,No,No,No,No,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1292,21,13-24,Female,162,48,18.28989483,Underweight,No,Yes,No,NA,NA,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,2,2,Health
+D137,23,13-24,Male,180,60,18.51851852,Normal weight,No,Yes,Man,Man,NA,NA,No,No,,,,,,,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1388,22,13-24,Female,165,60,22.03856749,Normal weight,No,Yes,No,Yes,NA,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1392,25,25-50,Female,NA,NA,NA,NA,No,Yes,No,Yes,A,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,5,5,Health
+D1394,21,13-24,Male,170,72,24.91349481,Normal weight,No,Yes,Man,Man,NA,NA,No,No,No,No,,No,No,No,Yes,No,1,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1396,21,13-24,Male,184,72,21.26654064,Normal weight,No,Yes,Man,Man,O,+,No,No,No,No,,No,No,No,No,No,0,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1401,22,13-24,Female,168,55,19.48696145,Normal weight,No,Yes,No,Yes,NA,NA,No,No,No,No,,No,No,No,Yes,No,1,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1402,19,13-24,Female,NA,NA,NA,NA,No,Yes,No,NA,A,+,No,No,No,,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,3,3,Health
+D1404,26,25-50,Female,163,55,20.70081674,Normal weight,No,Yes,No,Yes,A,NA,No,No,No,No,,No,No,No,Yes,No,2,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,2,2,Health
+D1406,19,13-24,Female,NA,NA,NA,NA,No,Yes,No,NA,B,+,No,No,No,,,,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1411,24,13-24,Female,169,65,22.75830678,Normal weight,No,Yes,No,NA,NA,NA,No,No,No,,,,,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,4,4,Health
+D1412,20,13-24,Female,170,57,19.72318339,Normal weight,No,Yes,No,Yes,NA,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,2,2,Health
+D1430,18,13-24,Male,171,64,21.88707637,Normal weight,No,Yes,Man,Man,NA,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,2,2,Health
+D1441,22,13-24,Male,174,56,18.49649888,Normal weight,No,Yes,Man,Man,O,+,No,No,No,No,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,2,2,Health
+D1448,22,13-24,Female,158,50,20.02884153,Normal weight,No,Yes,No,NA,A,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,5,5,Health
+D1453,22,13-24,Male,185,84,24.54346238,Normal weight,No,Yes,Man,Man,A,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,0,0,0,0,Health
+D1466,22,13-24,Female,158,56,22.43230252,Normal weight,No,Yes,No,Yes,NA,NA,No,No,No,No,,No,No,No,Yes,No,2,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,2,2,Health
+D1468,24,13-24,Female,169,55,19.25702882,Normal weight,No,Yes,No,Yes,B,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,8,8,Health
+D153,40,25-50,Female,NA,42,NA,NA,No,Yes,No,NA,A,+,No,No,No,No,No,No,No,No,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,1,4,5,Other
+D154,35,25-50,Female,NA,62,NA,NA,No,Yes,No,NA,O,-,No,No,No,,,No,No,No,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,2,2,7,11,Other
+D155,38,25-50,Female,NA,71,NA,NA,No,Yes,No,NA,A,+,No,No,No,No,No,No,No,No,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,2,4,9,15,Other
+D2847,26,25-50,Female,158,48,19.22768787,Normal weight,Ex-fumador,No,No,Yes,A,+,No,No,No,No,No,No,No,Sinusite,No,No,1,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,1,NA,1,2,Gingivitis
+D2848,27,25-50,Male,176,83,26.79493802,Overweight,No,No,Man,Man,O,+,No,No,No,No,No,No,No,Sinusite,Yes,No,4,No,,,,Other,NA,NA,NA,NA,NA,NA,4,NA,NA,4,Health
+D2849,26,25-50,Female,157,58,23.53036634,Normal weight,Yes,Yes,No,Yes,A,+,No,No,No,No,No,No,No,Sinusite,No,No,1,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,3,NA,NA,3,Gingivitis
+D2850,32,25-50,Male,175,75,24.48979592,Normal weight,No,No,Man,Man,O,+,No,No,No,No,No,No,No,No,No,No,0,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,1,NA,7,8,Health
+D2851,39,25-50,Male,175,81,26.44897959,Overweight,No,No,Man,Man,NA,NA,Yes,No,No,No,No,No,No,No,No,No,1,No,,aines,,Other,NA,NA,NA,NA,NA,NA,NA,NA,8,8,Health
+D2852,44,25-50,Female,150,41,18.22222222,Underweight,No,No,No,NA,A,+,No,No,No,No,No,No,No,No,No,No,0,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,NA,NA,3,3,Periodontitis
+D2853,30,25-50,Male,180,67,20.67901235,Normal weight,No,No,Man,Man,O,NA,No,No,No,No,No,No,No,Asma Sinusite,Yes,No,3,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Health
+D2859,38,25-50,Female,160,54,21.09375,Normal weight,No,No,No,Yes,O,-,No,No,No,No,No,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,3,NA,1,4,Health
+D2860,34,25-50,Male,182,75,22.64219297,Normal weight,No,No,Man,Man,NA,NA,No,No,No,No,No,No,No,No,No,No,0,Yes,rotina,,,Other,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Health
+D2861,27,25-50,Female,165,55,20.2020202,Normal weight,No,No,No,NA,AB,+,No,No,No,No,No,No,No,No,No,No,0,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,5,NA,5,10,Health
+D2866,42,25-50,Female,160,55,21.484375,Normal weight,No,No,No,NA,AB,+,No,No,No,No,No,No,No,No,No,No,0,No,,AINE,,Mediterranean,NA,NA,NA,NA,NA,NA,NA,NA,4,4,Health
+D2868,37,25-50,Male,185,86,25.12783053,Overweight,No,Yes,Man,Man,O,+,No,No,No,No,No,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,NA,NA,2,2,Health
+D2869,30,25-50,Female,164,53,NA,NA,No,No,No,Yes,O,+,No,No,No,No,No,No,No,No,Yes,No,1,No,,,,Other,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Health
+D2870,28,25-50,Male,181,85,25.94548396,Overweight,Ex-fumador,Yes,Man,Man,A,+,No,Nosabe (se tem),No,No,No,No,No,Urtic ria Sinusite,Yes,No,6,No,,,,Other,NA,NA,NA,NA,NA,NA,NA,NA,5,5,Health
+D2874,29,25-50,Female,165,57,20.93663912,Normal weight,No,No,No,Yes,O,+,No,No,No,No,No,No,No,Sinusite,Yes,No,5,No,,,,Other,NA,NA,NA,NA,NA,NA,NA,NA,5,5,Health
+D2875,27,25-50,Female,172,65,21.97133586,Normal weight,Ex-fumador,No,No,Yes,NA,NA,No,No,No,No,No,No,No,Sinusite,Yes,No,2,No,,,,Other,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Health
+D2876,45,25-50,Male,172,66,22.30935641,Normal weight,Ex-fumador,No,Man,Man,A,+,No,No,No,No,No,Gastrite,No,No,No,No,1,No,,,,Mediterranean,NA,NA,NA,NA,NA,NA,NA,NA,7,7,Health
+D2878,35,25-50,Male,171,69,23.59700421,Normal weight,Ex-fumador,No,Man,Man,A,+,No,No,No,No,No,No,No,No,Yes,No,1,No,,ibuprofeno 660mg,,Other,NA,NA,NA,NA,NA,NA,NA,NA,4,4,Health
+D2879,42,25-50,Male,NA,NA,NA,NA,Ex-fumador,No,Man,Man,NA,NA,No,No,No,No,No,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,NA,1,1,2,Periodontitis
+D2881,48,25-50,Female,164,58,21.56454491,Normal weight,No,Yes,No,NA,A,-,No,No,No,No,No,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,NA,NA,7,7,Health
+D2890,43,25-50,Female,152,49,21.20844875,Normal weight,No,Yes,No,Yes,A,+,No,No,No,No,No,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,NA,NA,4,4,Health
+D2899,34,25-50,Female,166,80,29.03178981,Overweight,Ex-fumador,Yes,No,Yes,A,+,No,No,No,No,No,No,No,Sinusite,No,No,1,No,,,clavamoxDT,Mediterranean,NA,NA,NA,NA,NA,NA,NA,NA,5,5,Health
+D2900,40,25-50,Female,169,65,22.75830678,Normal weight,No,No,No,NA,A,+,No,No,No,No,No,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,6,NA,NA,6,Health
+D2901,33,25-50,Male,167,86,30.83653053,Obese,No,No,Man,Man,O,+,No,No,No,No,No,No,No,No,Yes,No,2,No,,,,Other,NA,NA,NA,NA,NA,NA,5,3,NA,8,Health
+D560,50,25-50,Female,164,58,21.56454491,Normal weight,Ex-fumador,Yes,No,NA,O,+,No,No,No,No,No,No,No,No,No,No,0,No,,,,NA,NA,NA,NA,NA,NA,NA,0,9,9,18,Other
+D612,20,13-24,Male,NA,NA,NA,NA,No,Yes,Man,Man,NA,NA,No,No,No,No,,No,No,No,Yes,No,1,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,2,2,Health
+D709,18,13-24,Male,190,78,21.6066482,Normal weight,No,Yes,Man,Man,NA,NA,No,No,No,No,,No,No,No,No,No,0,No,,,,Other,NA,NA,NA,NA,NA,NA,0,0,1,1,Health
