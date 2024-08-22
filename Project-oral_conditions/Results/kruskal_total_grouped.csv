@@ -1,0 +1,5 @@
+"",".y.","n","statistic","df","p","method"
+"1","Protein_concentration",73,1.43923356575839,3,0.696,"Kruskal-Wallis"
+"2","Volume",73,2.03618916795086,3,0.565,"Kruskal-Wallis"
+"3","Flux",73,2.03618916795086,3,0.565,"Kruskal-Wallis"
+"4","pH",73,1.93016518643689,3,0.587,"Kruskal-Wallis"

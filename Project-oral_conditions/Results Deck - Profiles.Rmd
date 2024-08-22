@@ -1,0 +1,904 @@
+---
+title: "Results Deck - Profiles"
+author: "Eduardo Esteves"
+date: "2023-03-12"
+output: 
+  html_document: 
+    font-family: Manrope
+    fontsize: 14
+    toc: true
+    toc_depth: 3
+    toc_float: TRUE
+    df_print: paged
+    theme: darkly
+    highlight: zenburn
+    code_folding: hide
+    
+---
+Load up the packages we will need
+```{r,message=FALSE}
+library(tidyverse)
+library(tidyr)
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+library(ggthemes)
+library(hrbrthemes)
+library(viridis)
+library(extrafont)
+#library(pathfindR)
+library(BiocManager)
+library(mixOmics)
+library(reshape2)
+library(showtext)
+# font_add_google("Manrope")
+```
+
+
+# Preparing the data
+Import the initial data frame
+```{r}
+profiles <- read.table(file = '/Users/ee/git/r/Project_periodontitis/Data/profiles.csv', 
+                       header = TRUE, sep = ',', quote = "", row.names = NULL, 
+                       stringsAsFactors = FALSE, check.names = FALSE)
+head(profiles)
+```
+
+Remove column "sample" from the data frame
+```{r}
+profiles_1 <- profiles[, -which(names(profiles) == "sample")]
+head(profiles_1)
+```
+
+Combine multiple the data frame variables (columns) into a single column
+```{r, message=FALSE}
+profiles_melt <- melt(profiles_1)
+head(profiles_melt)
+```
+Reorder the groups based on the group (pathology) name
+````{r}
+profiles_melt$group <- factor(profiles_melt$group, levels = c("Healthy",
+                                                              "Gingivitis",
+                                                              "Mucositis",
+                                                              "Periimplantitis"))
+`````
+
+## Summary statistics
+Calculate the mean and standard deviation of the fluorescence results (value column) per molecular weight of all samples in each group
+```{r,message=FALSE}
+summary_table <- profiles_melt %>% 
+  group_by(group, variable) %>% 
+  summarize(value.mean = mean(value),
+            value.sd = sd(value))
+head(summary_table)
+```
+
+
+# Profiles visuaization
+Convert the 'value' column to a numeric data type and round the 'value' column to integers
+```{r}
+profiles_melt$variable <- as.numeric(as.character(profiles_melt$variable))
+profiles_melt$rounded_variable <- as.integer(round(profiles_melt$variable))
+head(profiles_melt)
+```
+
+Recalculate the mean and standard deviation of the fluorescence results (value column) per molecular weight of all samples in each group.
+This will make the plotting easier to read and more visual appealing
+```{r,message=FALSE}
+profiles_melt$group <- factor(profiles_melt$group, levels = c("Healthy",
+                                                              "Gingivitis",
+                                                              "Mucositis",
+                                                              "Periimplantitis"))
+summary_table <- profiles_melt %>% 
+  group_by(group, rounded_variable) %>% 
+  summarize(value.mean = mean(value),
+            value.sd = sd(value))
+head(summary_table)
+```
+
+<!-- Profile plot - Grouped line plot with mean (line) and standard deviation (shadow) -->
+```{r,dev="png",fig.cap="Figure 1: Profile plot - Grouped line plot with mean (line) and standard deviation (shadow)"}
+p_plot_1 <- ggplot(summary_table, aes(x = rounded_variable,
+                               y = rounded_variable,
+                               fill = group)) +
+  geom_ribbon(aes(ymin = value.mean - value.sd,ymax = value.mean + value.sd), alpha = 0.3) +
+  geom_line(aes(y = value.mean, color = group), linetype = "solid") +
+  scale_fill_manual(values = c("green", "blue", "orange","red")) +
+  scale_color_manual(values = c("green", "blue", "orange","red")) +
+  coord_cartesian(xlim = c(10, 140)) +
+  scale_x_continuous(breaks = seq(10, 140, 10)) +
+  labs(x = "Molecular Weight", y = "Fluorescence", title = "Protein Capillary Electrophoresis") +
+  theme(panel.grid = element_blank()) # Plot the ribbon and mean lines
+plot(p_plot_1)
+```
+
+
+# Profiles normalization
+<!-- "Normalizing data with negative values can be a bit tricky." -->
+## Normalization option 1.1 - Total Ion Current (TIC)
+A common normalization factor for CE data is the total ion current (TIC), which represents the sum of all peak heights in a sample.
+```{r}
+tic <- rowSums(profiles_1[,2:ncol(profiles_1)]) # Calculate the normalization factor: To calculate the TIC, use the rowSums function in R to sum the peak heights across all variables for each sample
+data_norm1 <- profiles_1[,2:ncol(profiles_1)] / tic # Divide each variable in the data frame by the TIC to obtain normalized values.
+data_norm <- cbind(profiles_1[,1], data_norm1) # Save the normalized data: add the sample ID column back
+colnames(data_norm) <- colnames(profiles_1) # Save the normalized data: copy the column names
+head(data_norm)
+```
+
+Summary statistics on the normalized data
+```{r,message=FALSE}
+profiles_melt_tic <- melt(data_norm)
+
+# Reorder the groups based on name
+profiles_melt_tic$group <- factor(profiles_melt_tic$group, levels = c("Healthy",
+                                                                   "Gingivitis",
+                                                                   "Mucositis",
+                                                                   "Periimplantitis"))
+
+# Convert the 'value' column to a numeric data type
+profiles_melt_tic$variable <- as.numeric(as.character(profiles_melt_tic$variable))
+
+# Round the 'value' column to integers
+profiles_melt_tic$rounded_variable <- as.integer(round(profiles_melt_tic$variable))
+
+summary_table_tic <- profiles_melt_tic %>%
+  group_by(group, rounded_variable) %>% 
+  summarize(value.mean = mean(value),
+            value.sd = sd(value))
+head(summary_table_tic)
+```
+
+Plotting
+```{r,dev="png",fig.cap="Figure 2: Profile plot with TIC normalized data - Grouped line plot with mean (line) and standard deviation (shadow)"}
+p_plot_tic <- ggplot(summary_table_tic, aes(x = rounded_variable,
+                                              y = rounded_variable,
+                                              fill = group)) +
+  geom_ribbon(aes(ymin = value.mean - value.sd,ymax = value.mean + value.sd), alpha = 0.3) +
+  geom_line(aes(y = value.mean, color = group), linetype = "solid") +
+  scale_fill_manual(values = c("green", "blue", "orange","red")) +
+  scale_color_manual(values = c("green", "blue", "orange","red")) +
+  coord_cartesian(xlim = c(10, 140)) +
+  scale_x_continuous(breaks = seq(10, 140, 10)) +
+  labs(x = "Molecular Weight", y = "Normalized Scale Intensity", title = "Protein Capillary Electrophoresis") +
+  theme(panel.grid = element_blank()) # Remove the x and y lines
+plot(p_plot_tic)
+```
+
+
+## Normalization option 1.2: TIC with Log transformation.
+Log transformation on the Total Ion Current (TIC) normalized data.
+```{r}
+data_log <- log(data_norm1 + 1)
+data_log <- cbind(profiles_1[,1], data_log)
+colnames(data_log) <- colnames(profiles_1)
+
+profiles_melt_tic1 <- melt(data_log)
+```
+
+Summary statistics on the normalized data
+```{r,message=FALSE}
+# Reorder the groups based on name
+profiles_melt_tic1$group <- factor(profiles_melt_tic1$group, levels = c("Healthy",
+                                                                      "Gingivitis",
+                                                                      "Mucositis",
+                                                                      "Periimplantitis"))
+
+# Convert the 'value' column to a numeric data type
+profiles_melt_tic1$variable <- as.numeric(as.character(profiles_melt_tic1$variable))
+
+# Round the 'value' column to integers
+profiles_melt_tic1$rounded_variable <- as.integer(round(profiles_melt_tic1$variable))
+
+
+
+summary_table_tic1 <- profiles_melt_tic1 %>%
+  group_by(group, rounded_variable) %>% 
+  summarize(value.mean = mean(value),
+            value.sd = sd(value))
+head(summary_table_tic1)
+```
+
+Plotting
+```{r,dev="png",fig.cap="Figure 3: Profile plot with TIC + log normalized data - Grouped line plot with mean (line) and standard deviation (shadow)"}
+p_plot_tic1 <- ggplot(summary_table_tic1, aes(x = rounded_variable,
+                                            y = rounded_variable,
+                                            fill = group)) +
+  geom_ribbon(aes(ymin = value.mean - value.sd,ymax = value.mean + value.sd), alpha = 0.3) +
+  geom_line(aes(y = value.mean, color = group), linetype = "solid") +
+  scale_fill_manual(values = c("green", "blue", "orange","red")) +
+  scale_color_manual(values = c("green", "blue", "orange","red")) +
+  coord_cartesian(xlim = c(10, 140)) +
+  scale_x_continuous(breaks = seq(10, 140, 10)) +
+  labs(x = "Molecular Weight", y = "Normalized Scale Intensity", title = "Protein Capillary Electrophoresis") +
+  theme(panel.grid = element_blank()) # Remove the x and y lines
+plot(p_plot_tic1)
+```
+
+## Normalization option 2 - Scale 
+Another option is to use the scale() function to scale the y-values to a specified range. 
+This function below normalize each y-column to a range of 0 to 1:
+```{r,dev="png"}
+normalize_ce_data <- function(data) {
+  # Normalize each y-axis to range of 0 to 1
+  y_cols <- colnames(data)[-1]
+  y_norm <- lapply(data[y_cols], function(y) {
+    scale(y, center = FALSE, scale = max(abs(y), na.rm = TRUE)) + 1
+  })
+  
+  # Merge normalized data by x-axis
+  data_norm <- cbind(data[1], y_norm)
+  
+  # Set column names
+  colnames(data_norm)[-1] <- paste0("y_", seq_len(ncol(data_norm)-1), "_norm")
+  
+  # Return normalized data
+  return(data_norm)
+}
+```
+
+Apply the function to normalize CE data
+```{r}
+ce_data_norm <- normalize_ce_data(profiles_1)
+```
+
+Replace column names of normalized data frame with original column names
+```{r,message=FALSE}
+names(ce_data_norm) <- names(profiles_1)
+profiles_melt_norm <- melt(ce_data_norm) 
+```
+
+Summary statistics on the normalized data
+```{r,message=FALSE}
+# Reorder the groups based on name
+profiles_melt_norm$group <- factor(profiles_melt$group, levels = c("Healthy",
+                                                                   "Gingivitis",
+                                                                   "Mucositis",
+                                                                   "Periimplantitis"))
+
+# Convert the 'value' column to a numeric data type
+profiles_melt_norm$variable <- as.numeric(as.character(profiles_melt_norm$variable))
+
+# Round the 'value' column to integers
+profiles_melt_norm$rounded_variable <- as.integer(round(profiles_melt_norm$variable))
+
+summary_table_norm <- profiles_melt_norm %>%
+  group_by(group, rounded_variable) %>% 
+  summarize(value.mean = mean(value),
+            value.sd = sd(value))
+
+```
+
+Plotting
+```{r,dev="png",fig.cap="Figure 4: Profile plot with SCALE normalized data - Grouped line plot with mean (line) and standard deviation (shadow)"}
+p_plot_norm <- ggplot(summary_table_norm, aes(x = rounded_variable,
+                                      y = rounded_variable,
+                                      fill = group)) +
+  geom_ribbon(aes(ymin = value.mean - value.sd,ymax = value.mean + value.sd), alpha = 0.3) +
+  geom_line(aes(y = value.mean, color = group), linetype = "solid") +
+  scale_fill_manual(values = c("green", "blue", "orange","red")) +
+  scale_color_manual(values = c("green", "blue", "orange","red")) +
+  coord_cartesian(xlim = c(10, 140)) +
+  scale_x_continuous(breaks = seq(10, 140, 10)) +
+  labs(x = "Molecular Weight", y = "Normalized Scale Intensity", title = "Protein Capillary Electrophoresis") +
+  theme(panel.grid = element_blank()) # Remove the x and y lines
+plot(p_plot_norm)
+```
+SCALE normalization is definitely not the best strategy to proceed with the analysis.
+I suggest to do different analysis approaches. Start from the original data and then moving to the normalized TIC data.
+
+# Statistical analysis and profile prediction (with original data)
+
+Partial Least Squares Discriminant Analysis (PLS-DA) is a linear, multivariate model which uses the PLS algorithm to allow classification of categorically labelled data. PLS-DA seeks for components that best separate the sample groups, whilst the sparse version also selects variables that best discriminate between groups.
+
+*The data - Define predictor (X) and response (Y) variables*
+```{r}
+plsda <- profiles_1[,2:398] # Select the MW columns
+colnames(plsda) <- paste("mw", colnames(plsda), sep="_") # Add "mw_" to the column names 
+X <- plsda # Assign plsda df to X
+profiles_1$group <- factor(profiles_1$group) # Make the group column a factor
+Y <- profiles_1$group # Assign plsda df to Y
+```
+
+check the dimensions of the X data frame
+```{r}
+dim(X)
+```
+
+check the distribution of class labels
+```{r}
+summary(Y)
+```
+
+## *Initial Analysis - Preliminary Analysis with PCA*
+
+
+As in most cases when developing models, exploring the data to determine the major sources of variation is a good first step. PCA will be used for this. Centering and scaling is recommended to homogenize the variance across the samples. *ncomp* is set to an arbitrarily high number to understand the captured variance across cotheremponents.
+Run PCA method on data and plot the eigenvalues (explained variance per component)
+```{r,fig.cap="FIGURE 5: Barplot of the variance each principal component explains of the fluorescence intesity per molecular weight profile data."}
+pca.srbct = pca(X, ncomp = 10, center = TRUE, scale = TRUE) # run pca method on data
+plot(pca.srbct)  # barplot of the eigenvalues (explained variance per component)
+```
+
+One component would be sufficient to explain a moderate proportion of the data's variance according to Figure 1. However we will use the first two componnets in order to keep the analysis flow.
+Next, the data is projected onto these two components to attempt to observe sources of variation.
+Plot the samples projected onto the PCA subspace
+
+```{r,fig.cap="FIGURE 6: Preliminary (unsupervised) analysis with PCA on the SRBCT gene expression data"}
+plotIndiv(pca.srbct, group = profiles_1$group, ind.names = FALSE, # plot the samples projected
+          legend = TRUE, title = 'PCA on SRBCT, comp 1 - 2') # onto the PCA subspace
+```
+
+It seems that different sample groups do not separate or cluster across the two Principal components of the data, as seen in Figure 6. There are clusters, but these are not explained by the class variable. It can be inferred then that the major source of variation in intensity between the same group for the same Molecular Weight. Note that Figure 6 has each sample group coloured by the class. This is only done for visualisation after the PCA as it is an unsupervised approach.
+
+
+## Initial sPLS-DA model
+
+A PLS-DA model is fitted with ten components to evaluate the performance and the number of components necessary for the final model. A sample plot, including confidence ellipses, is shown in Figure 7(a). This plot shows much better clustering of samples according to the sample groups when compared to the PCA output.
+
+```{r}
+srbct.splsda <- splsda(X, Y, ncomp = 10)
+```
+
+
+```{r,fig.cap="FIGURE 7a: Sample plots of the protein profile data after a basic PLS-DA model was operated on this data. Depicts the samples with the confidence ellipses of different class labels"}
+plotIndiv(srbct.splsda , comp = 1:2, #Plot the samples projected onto the first two components of the PLS-DA subspace
+          group = profiles_1$group, ind.names = FALSE,  # colour points by class
+          ellipse = TRUE, # include 95% confidence ellipse for each class
+          legend = TRUE, title = '(a) PLSDA with confidence ellipses')
+```
+
+Use the max.dist measure to form decision boundaries between classes based on PLS-DA data
+```{r}
+background = background.predict(srbct.splsda, comp.predicted=2, dist = "max.dist")
+```
+
+
+The background.predict() function can also be utilized to depict the separation of class labels as seen in Figure 7(b). This plot provides intuition on how novel samples would be classified according to the model generated by sPLS-DA.
+
+```{r,fig.cap="FIGURE 7b: Sample plots of the protein profile data after a basic PLS-DA model was operated on this data. Depicts the prediction background generated by these samples. Both plots use the first two components as axes."}
+plotIndiv(srbct.splsda, comp = 1:2, #Plot the samples projected onto the first two components of the PLS-DA subspace
+          group = profiles_1$group, ind.names = FALSE, # colour points by class
+          background = background, # include prediction background for each class
+          legend = TRUE, title = " (b) PLSDA with prediction background")
+```
+
+## Tuning sPLS-DA
+### Selecting the number of components
+
+*The ncomp Parameter*
+
+The number of components to use is a crucial decision and is dictated by the performance of the PLS-DA model – i.e. its ability to correctly classify novel samples. The perf() function is used for this exactly. This is done with repeated cross-validation. Based on the output of this function, the optimal number of components to use can be identified.
+
+A three-fold, 10 repeat cross-validation procedure is utilized here. Generally, for data sets with numerous samples, at least 10 folds is recommended. *3 or 5 folds is appropriate for smaller data sets and those with minimal samples should use Leave-One-Out (LOO) validation.* Consider using 50-100 repeats to reduce the impact of the randomly allocated folds during each repeat.
+
+The overall error rate (OER) and balanced error rate (BER) for the three different distance metrics (explained further below) across the first ten components are depicted in Figure 8.
+
+```{r,message=FALSE}
+#Undergo performance evaluation in order to tune the number of components to use
+perf.splsda.srbct <- perf(srbct.splsda, validation = "Mfold",
+                          folds = 5, nrepeat = 100, # use repeated cross-validation
+                          progressBar = FALSE, auc = TRUE) # include AUC values
+```
+
+
+```{r,fig.cap="FIGURE 8: Tuning the number of components in PLS-DA on the SRBCT gene expression data. For each component, repeated cross-validation (10 × 3−fold CV) is used to evaluate the PLS-DA classification performance (OER and BER), for each type of prediction distance; max.dist, centroids.dist and mahalanobis.dist."}
+# Plot the outcome of performance evaluation across all ten components
+plot(perf.splsda.srbct, col = color.mixo(5:7), sd = TRUE,
+     legend.position = "horizontal")
+```
+
+From this, it seems three components are appropriate as the error for each distance metric decreases by very incremental amounts after this. Components beyond the third are likely to provide neglible returns to the classification accuracy. A more empirical way to select this number is through the $choice.ncomp component of the perf() output object. It runs t-tests for a significant different in mean error rate across components. Using the max.dist metric, this suggests that the optimal number of components is 1. When to use each distance metric is explained further below.
+
+```{r}
+# what is the optimal value of components according to perf()
+perf.splsda.srbct$choice.ncomp
+```
+
+## Selecting the number of variables
+### The keepX Parameter
+
+In order to determine the number of variables used to construct each latent component, the tune.splsda() function is utilized. This is performed iteratively, such that components are tuned one at a time. Through this function, the classification error rate can be extracted and averaged across folds and repeats. As mentioned above, an appropriate number of repeats would be around 50-100.
+
+Up to four components were selected as per Figure 8. In this case, five-fold cross validation was repeated 100 times using the BER of max.dist as the performance measure – where minimisation was optimal. The cpus parameter allows for the use of parallelisation of computation as tuning can take a long time on low-to-mid range processors.
+
+The output of the tuning is shown in Figure 9. The diamond indicates the optimal number of variables to keep for a given component, selected by which keepX value achieves the lowest classification error rate as determined with a one-sided t−test. The error bars indicate the standard deviation across the repeated, cross-validated folds.
+
+```{r}
+# Grid of possible keepX values that will be tested for each component
+list.keepX <- c(1:10,  seq(20, 300, 10))
+
+# Undergo the tuning process to determine the optimal number of variables
+tune.splsda.srbct <- tune.splsda(X, Y, ncomp = 4, # calculate for first 4 components
+                                 validation = 'Mfold',
+                                 folds = 5, nrepeat = 10, # use repeated cross-validation
+                                 dist = 'max.dist', # use max.dist measure
+                                 measure = "BER", # use balanced error rate of dist measure
+                                 test.keepX = list.keepX,
+                                 cpus = 2) # allow for paralleliation to decrease runtime
+```
+
+
+
+```{r,fig.cap="FIGURE 9: Tuning keepX for the sPLS-DA performed on the SRBCT gene expression data. Each coloured line represents the balanced error rate (y-axis) per component across all tested keepX values (x-axis) with the standard deviation based on the repeated cross-validation folds. As sPLS-DA is an iterative algorithm, values represented for a given component (e.g. comp 1 to 2) include the optimal keepX value chosen for the previous component (comp 1)."}
+# Plot output of variable number tuning
+plot(tune.splsda.srbct, col = color.jet(4))
+```
+
+The above figure also aids in tuning the number of components. While the tuning of component number (through perf()) yielded an optimal value of 1, conflicting results can be seen after the use of tune.splsda(), such that the optimal value is claimed to be 1. After the optmisation of the selected features, the fourth component seemingly minimises the BER negligibly.
+
+```{r}
+# What is the optimal value of components according to tune.splsda()
+tune.splsda.srbct$choice.ncomp$ncomp
+```
+
+The exact quantity of features to use for each component can also be extracted from this object:
+
+```{r}
+# What are the optimal values of variables according to tune.splsda()
+tune.splsda.srbct$choice.keepX
+```
+
+These values are stored to form the final, optimised model.
+```{r}
+#store the results in to the variables
+optimal.ncomp <- tune.splsda.srbct$choice.ncomp$ncomp
+optimal.keepX <- tune.splsda.srbct$choice.keepX[1:optimal.ncomp]
+```
+
+
+## Final Model
+
+Form final model with optimized values for component and variable count
+It's important to mention that because the number of optimal components defined previously is equal to 1, it would make the final model impossible to reproduce. I decided to use number of components ==3 as a standard to proceed.
+Using all the tuned parameters from above, the final sPLS-DA model can be formed.
+```{r}
+final.splsda <- splsda(X, Y, 
+                       ncomp = 3, # The "optimal.ncomp" identify only 1 component ideal according to the tune.splda
+                       keepX = optimal.keepX)
+```
+
+## Plots
+
+Once again, sample plots will be used to show the distribution of the data in the latent space. The plots seen in Figure 6 contrast Figure 3 starkly. Figure 3 was yielded by an unoptimised, PLS-DA model (no feature or component selection). Figure 6 shows the sample plots for the first and second components (a) and the first and third components (b). The difference between Figure 6 (a) and (b) is indicative of the fact that different genes discriminate the samples differently. Genes which contributed to the third component separated the RMS and NB classes much better than those which contributed to the second. All three components were well suited to separate the BL class as it does not overlap any other cluster in either plot.
+
+Plot samples from final model
+```{r}
+plotIndiv(final.splsda, comp = c(1,2), # plot samples from final model
+          group = profiles_1$group, ind.names = FALSE, # colour by class label
+          ellipse = TRUE, legend = TRUE, # include 95% confidence ellipse
+          title = ' (a) sPLS-DA on SRBCT, comp 1 & 2')
+
+# plotIndiv(final.splsda, comp = c(1,3), # plot samples from final model
+#           group = profiles_1$group, ind.names = FALSE,  # colour by class label
+#           ellipse = TRUE, legend = TRUE, # include 95% confidence ellipse
+#           title = '(b) sPLS-DA on SRBCT, comp 1 & 3')
+```
+
+
+Set the styling of the legend to be homogeneous with previous plots
+```{r}
+legend=list(legend = levels(Y), # set of classes
+            col = unique(color.mixo(Y)), # set of colours
+            title = "Profile grouping", # legend title
+            cex = 0.7) # legend size
+```
+
+
+Generate the CIM, using the legend and colouring rows by each sample's class
+```{r}
+cim <- cim(final.splsda, row.sideColors = color.mixo(Y), 
+           legend = legend)
+# ggsave("cim.png", cim, width = 10, height = 5, dpi = 300)
+```
+
+
+## Variable Plots
+Form new perf() object which utilises the final model
+```{r}
+perf.splsda.srbct <- perf(final.splsda, 
+                          folds = 5, nrepeat = 10, # use repeated cross-validation
+                          validation = "Mfold", dist = "max.dist",  # use max.dist measure
+                          progressBar = FALSE)
+```
+
+Plot the stability of each feature for the first three components, 'h' type refers to histogram
+```{r}
+par(mfrow=c(1,3))
+plot(perf.splsda.srbct$features$stable[[1]], type = 'h', 
+     ylab = 'Stability', 
+     xlab = 'Features', 
+     main = '(a) Comp 1', las =2)
+plot(perf.splsda.srbct$features$stable[[2]], type = 'h', 
+     ylab = 'Stability', 
+     xlab = 'Features', 
+     main = '(b) Comp 2', las =2)
+plot(perf.splsda.srbct$features$stable[[3]], type = 'h', 
+     ylab = 'Stability', 
+     xlab = 'Features',
+     main = '(c) Comp 3', las =2)
+```
+
+
+```{r}
+# var.name.short <- substr(profiles_1[,2:398], 1, 10) # form simplified gene names
+# 
+# plotVar(final.splsda, comp = c(1,2), var.names = list(var.name.short), cex = 3) # generate correlation circle plot
+```
+
+## Prediction
+Dataset preparation
+```{r}
+train <- sample(1:nrow(X), 5) # randomly select 50 samples in training
+test <- setdiff(1:nrow(X), train) # rest is part of the test set
+
+```
+
+Store matrices into training and test set:
+```{r}
+X.train <- X[train, ]
+X.test <- X[test,]
+Y.train <- Y[train]
+Y.test <- Y[test]
+```
+
+
+Train the model
+```{r}
+train.splsda.srbct <- splsda(X.train, Y.train, ncomp = optimal.ncomp, keepX = optimal.keepX)
+```
+
+Use the model on the Xtest set
+```{r}
+predict.splsda.srbct <- predict(train.splsda.srbct, X.test, 
+                                dist = "mahalanobis.dist")
+```
+
+
+Evaluate the prediction accuracy for the first two components
+```{r}
+predict.comp2 <- predict.splsda.srbct$class$mahalanobis.dist[,1]
+table(factor(predict.comp2, levels = levels(Y)), Y.test)
+```
+
+
+## Performance Plots
+AUROC for the first component
+```{r}
+auc.splsda = auroc(final.splsda, roc.comp = 1, print = FALSE) # AUROC for the first component
+```
+
+AUROC for all three components
+```{r}
+auc.splsda = auroc(final.splsda, roc.comp = 3, print = FALSE) # AUROC for all three components
+```
+
+
+
+
+
+# Statistical analysis and profile prediction (with transformed data)
+
+
+```{r}
+library(reshape2)
+library(dplyr)
+profiles_melt_tic_to_log <- subset(profiles_melt_tic, select = -c(variable) )
+
+df_melted_numbered <- profiles_melt_tic_to_log %>%
+  group_by(rounded_variable,group) %>%
+  mutate(number = rank(value))
+
+# write.csv(df_melted_numbered, "/Users/ee/Downloads/df_melted_numbered.csv", row.names=FALSE)
+
+profiles_melt_tic_to_log$group <- paste(df_melted_numbered$group, df_melted_numbered$number, sep="_")
+
+# write.csv(profiles_melt_tic_to_log, "/Users/ee/Downloads/profiles_melt_tic_to_log.csv", row.names=FALSE)
+
+
+# profiles_melt_tic_to_log <- subset(profiles_melt_tic_to_log, select = -c(group,consecutive_numbers) )
+
+
+
+
+log_analysis <- dcast(profiles_melt_tic_to_log, group ~ rounded_variable, fun.aggregate = mean)
+log_analysis = na.exclude(log_analysis) 
+log_analysis[is.na(log_analysis)] <- 0
+dim(log_analysis)
+```
+
+
+Partial Least Squares Discriminant Analysis (PLS-DA) is a linear, multivariate model which uses the PLS algorithm to allow classification of categorically labelled data. PLS-DA seeks for components that best separate the sample groups, whilst the sparse version also selects variables that best discriminate between groups.
+
+*The data - Define predictor (X) and response (Y) variables*
+```{r}
+plsda_tic <- log_analysis[,2:132] # Select the MW columns
+colnames(plsda_tic) <- paste("mw", colnames(plsda_tic), sep="_") # Add "mw_" to the column names 
+X_tic <- plsda_tic # Assign plsda df to X
+log_analysis$group <- factor(log_analysis$group) # Make the group column a factor
+Y_tic <- log_analysis$group # Assign plsda df to Y
+```
+
+check the dimensions of the X data frame
+```{r}
+dim(X_tic)
+```
+
+check the distribution of class labels
+```{r}
+summary(Y_tic)
+```
+
+## *Initial Analysis - Preliminary Analysis with PCA*
+
+
+As in most cases when developing models, exploring the data to determine the major sources of variation is a good first step. PCA will be used for this. Centering and scaling is recommended to homogenize the variance across the samples. *ncomp* is set to an arbitrarily high number to understand the captured variance across cotheremponents.
+Run PCA method on data and plot the eigenvalues (explained variance per component)
+```{r,fig.cap="FIGURE 5: Barplot of the variance each principal component explains of the fluorescence intesity per molecular weight profile data."}
+pca.srbct_tic = pca(X_tic, ncomp = 10, center = TRUE, scale = TRUE) # run pca method on data
+plot(pca.srbct_tic)  # barplot of the eigenvalues (explained variance per component)
+```
+
+One component would be sufficient to explain a moderate proportion of the data's variance according to Figure 1. However we will use the first two componnets in order to keep the analysis flow.
+Next, the data is projected onto these two components to attempt to observe sources of variation.
+Plot the samples projected onto the PCA subspace
+
+```{r,fig.cap="FIGURE 6: Preliminary (unsupervised) analysis with PCA on the SRBCT gene expression data"}
+log_analysis1 <- sub('_*', '', log_analysis)
+log_analysis1 <- gsub('_*', '', log_analysis)
+log_analysis$group1 <- stringr::str_replace(log_analysis$group, '\\_.*$*', '')
+
+log_analysis <- subset(log_analysis, select = -c(group1) )
+
+
+plotIndiv(pca.srbct_tic, group = log_analysis$group1, ind.names = FALSE, # plot the samples projected
+          legend = TRUE, title = 'PCA on SRBCT, comp 1 - 2') # onto the PCA subspace
+```
+
+It seems that different sample groups do not separate or cluster across the two Principal components of the data, as seen in Figure 6. There are clusters, but these are not explained by the class variable. It can be inferred then that the major source of variation in intensity between the same group for the same Molecular Weight. Note that Figure 6 has each sample group coloured by the class. This is only done for visualisation after the PCA as it is an unsupervised approach.
+
+
+## Initial sPLS-DA model
+
+A PLS-DA model is fitted with ten components to evaluate the performance and the number of components necessary for the final model. A sample plot, including confidence ellipses, is shown in Figure 7(a). This plot shows much better clustering of samples according to the sample groups when compared to the PCA output.
+
+```{r}
+srbct.splsda_tic <- splsda(X_tic, Y_tic, ncomp = 10)
+```
+
+
+```{r,fig.cap="FIGURE 7a: Sample plots of the protein profile data after a basic PLS-DA model was operated on this data. Depicts the samples with the confidence ellipses of different class labels"}
+plotIndiv(srbct.splsda_tic , comp = 1:2, #Plot the samples projected onto the first two components of the PLS-DA subspace
+          group = log_analysis$group1, ind.names = FALSE,  # colour points by class
+          ellipse = TRUE, # include 95% confidence ellipse for each class
+          legend = TRUE, title = '(a) PLSDA with confidence ellipses')
+```
+
+Use the max.dist measure to form decision boundaries between classes based on PLS-DA data
+```{r}
+background = background.predict(srbct.splsda_tic, comp.predicted=2, dist = "max.dist")
+```
+
+
+The background.predict() function can also be utilized to depict the separation of class labels as seen in Figure 7(b). This plot provides intuition on how novel samples would be classified according to the model generated by sPLS-DA.
+
+```{r,fig.cap="FIGURE 7b: Sample plots of the protein profile data after a basic PLS-DA model was operated on this data. Depicts the prediction background generated by these samples. Both plots use the first two components as axes."}
+plotIndiv(srbct.splsda_tic, comp = 1:2, #Plot the samples projected onto the first two components of the PLS-DA subspace
+          group = log_analysis$group1, ind.names = FALSE, # colour points by class
+          background = background, # include prediction background for each class
+          legend = TRUE, title = " (b) PLSDA with prediction background")
+```
+
+## Tuning sPLS-DA
+### Selecting the number of components
+
+*The ncomp Parameter*
+
+The number of components to use is a crucial decision and is dictated by the performance of the PLS-DA model – i.e. its ability to correctly classify novel samples. The perf() function is used for this exactly. This is done with repeated cross-validation. Based on the output of this function, the optimal number of components to use can be identified.
+
+A three-fold, 10 repeat cross-validation procedure is utilized here. Generally, for data sets with numerous samples, at least 10 folds is recommended. *3 or 5 folds is appropriate for smaller data sets and those with minimal samples should use Leave-One-Out (LOO) validation.* Consider using 50-100 repeats to reduce the impact of the randomly allocated folds during each repeat.
+
+The overall error rate (OER) and balanced error rate (BER) for the three different distance metrics (explained further below) across the first ten components are depicted in Figure 8.
+
+```{r,message=FALSE}
+#Undergo performance evaluation in order to tune the number of components to use
+perf.splsda.srbct <- perf(srbct.splsda_tic, validation = "Mfold",
+                          folds = 3, nrepeat = 100, # use repeated cross-validation
+                          progressBar = FALSE, auc = TRUE) # include AUC values
+```
+
+
+```{r,fig.cap="FIGURE 8: Tuning the number of components in PLS-DA on the SRBCT gene expression data. For each component, repeated cross-validation (10 × 3−fold CV) is used to evaluate the PLS-DA classification performance (OER and BER), for each type of prediction distance; max.dist, centroids.dist and mahalanobis.dist."}
+# Plot the outcome of performance evaluation across all ten components
+plot(perf.splsda.srbct, col = color.mixo(5:7), sd = TRUE,
+     legend.position = "horizontal")
+```
+
+From this, it seems three components are appropriate as the error for each distance metric decreases by very incremental amounts after this. Components beyond the third are likely to provide neglible returns to the classification accuracy. A more empirical way to select this number is through the $choice.ncomp component of the perf() output object. It runs t-tests for a significant different in mean error rate across components. Using the max.dist metric, this suggests that the optimal number of components is 1. When to use each distance metric is explained further below.
+
+```{r}
+# what is the optimal value of components according to perf()
+perf.splsda.srbct$choice.ncomp
+```
+
+## Selecting the number of variables
+### The keepX Parameter
+
+In order to determine the number of variables used to construct each latent component, the tune.splsda() function is utilized. This is performed iteratively, such that components are tuned one at a time. Through this function, the classification error rate can be extracted and averaged across folds and repeats. As mentioned above, an appropriate number of repeats would be around 50-100.
+
+Up to four components were selected as per Figure 8. In this case, five-fold cross validation was repeated 100 times using the BER of max.dist as the performance measure – where minimisation was optimal. The cpus parameter allows for the use of parallelisation of computation as tuning can take a long time on low-to-mid range processors.
+
+The output of the tuning is shown in Figure 9. The diamond indicates the optimal number of variables to keep for a given component, selected by which keepX value achieves the lowest classification error rate as determined with a one-sided t−test. The error bars indicate the standard deviation across the repeated, cross-validated folds.
+
+```{r}
+# Grid of possible keepX values that will be tested for each component
+list.keepX <- c(1:10,  seq(20, 300, 10))
+
+# Undergo the tuning process to determine the optimal number of variables
+tune.splsda.srbct <- tune.splsda(X, Y, ncomp = 4, # calculate for first 4 components
+                                 validation = 'Mfold',
+                                 folds = 5, nrepeat = 10, # use repeated cross-validation
+                                 dist = 'max.dist', # use max.dist measure
+                                 measure = "BER", # use balanced error rate of dist measure
+                                 test.keepX = list.keepX,
+                                 cpus = 2) # allow for paralleliation to decrease runtime
+```
+
+
+
+```{r,fig.cap="FIGURE 9: Tuning keepX for the sPLS-DA performed on the SRBCT gene expression data. Each coloured line represents the balanced error rate (y-axis) per component across all tested keepX values (x-axis) with the standard deviation based on the repeated cross-validation folds. As sPLS-DA is an iterative algorithm, values represented for a given component (e.g. comp 1 to 2) include the optimal keepX value chosen for the previous component (comp 1)."}
+# Plot output of variable number tuning
+plot(tune.splsda.srbct, col = color.jet(4))
+```
+
+The above figure also aids in tuning the number of components. While the tuning of component number (through perf()) yielded an optimal value of 1, conflicting results can be seen after the use of tune.splsda(), such that the optimal value is claimed to be 1. After the optmisation of the selected features, the fourth component seemingly minimises the BER negligibly.
+
+```{r}
+# What is the optimal value of components according to tune.splsda()
+tune.splsda.srbct$choice.ncomp$ncomp
+```
+
+The exact quantity of features to use for each component can also be extracted from this object:
+
+```{r}
+# What are the optimal values of variables according to tune.splsda()
+tune.splsda.srbct$choice.keepX
+```
+
+These values are stored to form the final, optimised model.
+```{r}
+#store the results in to the variables
+optimal.ncomp <- tune.splsda.srbct$choice.ncomp$ncomp
+optimal.keepX <- tune.splsda.srbct$choice.keepX[1:optimal.ncomp]
+```
+
+
+## Final Model
+
+Form final model with optimized values for component and variable count
+It's important to mention that because the number of optimal components defined previously is equal to 1, it would make the final model impossible to reproduce. I decided to use number of components ==3 as a standard to proceed.
+Using all the tuned parameters from above, the final sPLS-DA model can be formed.
+```{r}
+final.splsda <- splsda(X, Y, 
+                       ncomp = 3, # The "optimal.ncomp" identify only 1 component ideal according to the tune.splda
+                       keepX = optimal.keepX)
+```
+
+## Plots
+
+Once again, sample plots will be used to show the distribution of the data in the latent space. The plots seen in Figure 6 contrast Figure 3 starkly. Figure 3 was yielded by an unoptimised, PLS-DA model (no feature or component selection). Figure 6 shows the sample plots for the first and second components (a) and the first and third components (b). The difference between Figure 6 (a) and (b) is indicative of the fact that different genes discriminate the samples differently. Genes which contributed to the third component separated the RMS and NB classes much better than those which contributed to the second. All three components were well suited to separate the BL class as it does not overlap any other cluster in either plot.
+
+Plot samples from final model
+```{r}
+plotIndiv(final.splsda, comp = c(1,2), # plot samples from final model
+          group = profiles_1$group, ind.names = FALSE, # colour by class label
+          ellipse = TRUE, legend = TRUE, # include 95% confidence ellipse
+          title = ' (a) sPLS-DA on SRBCT, comp 1 & 2')
+
+# plotIndiv(final.splsda, comp = c(1,3), # plot samples from final model
+#           group = profiles_1$group, ind.names = FALSE,  # colour by class label
+#           ellipse = TRUE, legend = TRUE, # include 95% confidence ellipse
+#           title = '(b) sPLS-DA on SRBCT, comp 1 & 3')
+```
+
+
+Set the styling of the legend to be homogeneous with previous plots
+```{r}
+legend=list(legend = levels(Y), # set of classes
+            col = unique(color.mixo(Y)), # set of colours
+            title = "Profile grouping", # legend title
+            cex = 0.7) # legend size
+```
+
+
+Generate the CIM, using the legend and colouring rows by each sample's class
+```{r}
+cim <- cim(final.splsda, row.sideColors = color.mixo(Y), 
+           legend = legend)
+# ggsave("cim.png", cim, width = 10, height = 5, dpi = 300)
+```
+
+
+## Variable Plots
+Form new perf() object which utilises the final model
+```{r}
+perf.splsda.srbct <- perf(final.splsda, 
+                          folds = 5, nrepeat = 10, # use repeated cross-validation
+                          validation = "Mfold", dist = "max.dist",  # use max.dist measure
+                          progressBar = FALSE)
+```
+
+Plot the stability of each feature for the first three components, 'h' type refers to histogram
+```{r}
+par(mfrow=c(1,3))
+plot(perf.splsda.srbct$features$stable[[1]], type = 'h', 
+     ylab = 'Stability', 
+     xlab = 'Features', 
+     main = '(a) Comp 1', las =2)
+plot(perf.splsda.srbct$features$stable[[2]], type = 'h', 
+     ylab = 'Stability', 
+     xlab = 'Features', 
+     main = '(b) Comp 2', las =2)
+plot(perf.splsda.srbct$features$stable[[3]], type = 'h', 
+     ylab = 'Stability', 
+     xlab = 'Features',
+     main = '(c) Comp 3', las =2)
+```
+
+
+```{r}
+# var.name.short <- substr(profiles_1[,2:398], 1, 10) # form simplified gene names
+# 
+# plotVar(final.splsda, comp = c(1,2), var.names = list(var.name.short), cex = 3) # generate correlation circle plot
+```
+
+## Prediction
+Dataset preparation
+```{r}
+train <- sample(1:nrow(X), 5) # randomly select 50 samples in training
+test <- setdiff(1:nrow(X), train) # rest is part of the test set
+
+```
+
+Store matrices into training and test set:
+```{r}
+X.train <- X[train, ]
+X.test <- X[test,]
+Y.train <- Y[train]
+Y.test <- Y[test]
+```
+
+
+Train the model
+```{r}
+train.splsda.srbct <- splsda(X.train, Y.train, ncomp = optimal.ncomp, keepX = optimal.keepX)
+```
+
+Use the model on the Xtest set
+```{r}
+predict.splsda.srbct <- predict(train.splsda.srbct, X.test, 
+                                dist = "mahalanobis.dist")
+```
+
+
+Evaluate the prediction accuracy for the first two components
+```{r}
+predict.comp2 <- predict.splsda.srbct$class$mahalanobis.dist[,1]
+table(factor(predict.comp2, levels = levels(Y)), Y.test)
+```
+
+
+## Performance Plots
+AUROC for the first component
+```{r}
+auc.splsda = auroc(final.splsda, roc.comp = 1, print = FALSE) # AUROC for the first component
+```
+
+AUROC for all three components
+```{r}
+auc.splsda = auroc(final.splsda, roc.comp = 3, print = FALSE) # AUROC for all three components
+```
+
+
+
+
+

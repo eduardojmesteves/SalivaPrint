@@ -1,0 +1,74 @@
+id;oral_pathology;pH;Protein_concentration;Volume;Flux;Gender;Age;Smoking;Alcool;Medication;Medication_1;Systemic_diseases;N_de_Impantes_lcalizads_Anterir;Psterires;Dentes_Naturais;N_Ttal_de_Implantes;N_de_Impantes_lcalizads_Anterir;Psterires;Dentes_Naturais;N_Ttal_de_Implantes;Peridntal_Screening_Recrd_(PSR)-1Q;Peridntal_Screening_Recrd_(PSR)-2Q;Peridntal_Screening_Recrd_(PSR)-3Q;Peridntal_Screening_Recrd_(PSR)-4Q;Peridntal_Screening_Recrd_(PSR)-5Q;Peridntal_Screening_Recrd_(PSR)-6Q;Peridntal_Screening_Recrd_(PSR)-Sangrament_à_sndagem_(BP)_(%)
+D00328;Saudavel;6.77;4173;600;300;2;58;0;0;0;;0;0;4;21;4;0;4;21;4;1;1;1;1;1;1;100
+D00338;Saudavel;6.24;1328;200;100;1;55;0;0;1;Carbamazepina;;;;;;;;;;;;;;;;
+D00339;Saudavel;6.19;2009;1100;550;1;66;0;0;1;0;0;4;4;14;8;4;4;14;8;1;1;1;1;1;1;
+D00345;Saudavel;6.3;1747;450;225;2;73;0;0;1;Anticogulante ;Enfarte e Hipocoagulado ;0;2;19;2;0;2;19;2;0;0;0;0;0;0;0
+D00348;Saudavel;5.86;247;50;25;1;57;3;0;1;Sivastatina ;Hipercolesterolémia ;0;4;7;4;0;4;7;4;0;0;0;1;0;1;75
+D00360;Saudavel;6.5;3624;800;400;2;38;1;1;0;;0;0;1;31;1;0;1;31;1;1;1;1;1;1;1;75
+D00518;Saudavel;6.33;2227;350;175;1;89;0;0;1;Vitaina C;0;2;2;7;4;2;2;7;4;1;1;1;0;0;0;25
+D00524;Saudavel;6.46;2837;1000;500;2;52;3;1;0;Fenofibrato metfromina onglyza tromalty ibrstan;Diabetes ;2;2;7;4;2;2;7;4;1;3;0;0;1;0;25
+D00525;Saudavel;6.93;1798;200;100;2;28;1;1;0;;0;0;4;21;4;0;4;21;4;1;0;1;1;1;1;100
+D00526;Saudavel;6.6;5825;550;275;2;41;3;1;1;Sivastatina ;Hipercolesteredimia ;0;1;32;1;0;1;32;1;0;1;0;0;0;0;10
+D00527;Saudavel;7.02;2351;2500;1250;1;55;0;0;0;;0;1;5;22;6;1;5;22;6;0;0;0;0;0;0;20
+D00528;Saudavel;6.52;7829;1500;750;2;56;3;1;0;;0;0;2;30;2;0;2;30;2;1;0;0;0;0;0;0
+D00529;Saudavel;6.75;3623;650;325;2;76;3;1;1;Comodar;;;;;;;;;;;;;;;;
+D00544;Saudavel;7.67;2164;850;425;1;44;0;0;1;;Diabetes Tipo I ;2;0;23;2;2;0;23;2;1;1;1;1;1;50;
+D00547;Saudavel;7.23;2761;450;225;1;37;0;0;0;;0;4;4;14;8;4;4;14;8;0;0;1;0;0;0;
+D00549;Saudavel;7.27;2567;1500;750;1;42;0;0;1;Nova Rapid;;;;;;;;;;;;;;;;
+D00551;Saudavel;7.7;11672;750;375;1;52;0;0;0;;0;0;2;30;2;0;2;30;2;0;0;0;0;0;1;0
+D00330;Periodontite e Peri-implantite;6.81;3554;140;70;2;34;3;1;0;;0;0;4;28;4;0;4;28;4;1;0;0;0;0;0;25
+D00356;Periodontite e Peri-implantite;6.71;1906;900;450;1;49;0;0;1;;Diabetes e Hipercolesteredemia ;0;4;25;4;0;4;25;4;0;0;0;0;0;0;0
+D00535;Periodontite e Peri-implantite;7.23;2567;1050;525;1;52;0;0;0;;0;1;6;15;7;1;6;15;7;2;1;1;3;1;4;
+D00548;Periodontite e Peri-implantite;7.37;2985;650;325;1;57;0;0;0;;0;1;0;24;1;1;0;24;1;1;1;1;0;0;0;50
+D00323;Peri-implantite;6.47;5496;300;150;1;82;0;0;1;;HA ;0;8;12;8;0;8;12;8;3;1;3;3;1;3;100
+D00335;Peri-implantite;6.55;4016;450;225;1;75;0;0;1;Omeprazol;;;;;;;;;;;;;;;;
+D00362;Peri-implantite;7.03;4286;1600;800;2;65;3;1;1;Sivastatina ;Hipercolesteridemia acido urico ;4;10;7;14;4;10;7;14;3;3;3;4;4;1;100
+D00519;Peri-implantite;7.06;2915;1200;600;2;67;3;1;1;HA;HA ;1;4;17;4;1;4;17;4;4;1;1;2;2;2;70
+D00530;Peri-implantite;6.55;2811;900;450;2;64;0;1;0;;0;2;10;12;12;2;10;12;12;1;1;1;1;3;3;100
+D00541;Peri-implantite;7.06;3179;400;200;1;53;0;0;1;Ansioliticos ;Depressão ;4;4;11;8;4;4;11;8;1;1;1;1;1;1;
+D00344;Mucosite e Periodontite;6.58;1886;1750;875;2;57;1;1;0;0;0;0;4;23;4;0;4;23;4;3;3;3;3;3;3;75
+D00347;Mucosite e Periodontite;6.3;5869;1300;650;2;73;0;1;1;Aspirina e Insulina ;Diabetes I e Hipocoagulado ;0;1;24;1;0;1;24;1;1;1;3;3;3;1;50
+D00350;Mucosite e Periodontite;6.61;2416;850;425;1;54;1;1;1;Antidepressivos;Depressão;1;2;22;3;1;2;22;3;1;1;3;3;3;1;75
+D00522;Mucosite e Periodontite;6.67;538;25;12.5;1;59;1;0;1;;Osteoporose e Depressao ;0;4;11;4;0;4;11;4;;;;;;;
+D00324;Mucosite e Peri-implantite;6.92;2706;240;120;1;54;0;0;0;;0;2;1;16;3;2;1;16;3;;;;;;;
+D00340;Mucosite e Peri-implantite;6.28;2801;150;75;1;59;0;0;1;Lover;;;;;;;;;;;;;;;;
+D00359;Mucosite e Peri-implantite;7.16;1678;700;350;1;64;0;0;1;;Psioriase ;;;;;;;;;;;;;;;
+D00521;Mucosite e Peri-implantite;7.21;4241;1700;850;2;70;3;1;1;Metaformina BCG atacan risidon;Hipercolesteredemia e Diabetes Tipo II ;4;9;;;4;9;;;3;4;3;1;1;1;100
+D00531;Mucosite e Peri-implantite;6.48;1988;450;225;1;82;0;0;0;;0;2;4;3;6;2;4;3;6;0;0;0;0;0;0;25
+D00532;Mucosite e Peri-implantite;6.72;3223;1000;500;1;60;0;0;0;;0;4;7;11;11;4;7;11;11;1;1;1;1;1;1;50
+D00305;Mucosite;6.84;7814;371;185.5;1;73;0;0;1;Ramipril;HA ;2;6;11;8;2;6;11;8;2;1;1;3;1;0;25
+D00322;Mucosite;5.74;3087;1300;650;1;62;1;0;0;;0;0;5;14;5;0;5;14;5;1;1;1;0;1;1;25
+D00325;Mucosite;6.54;3281;450;225;1;79;0;0;0;;0;3;5;12;8;3;5;12;8;1;1;1;3;1;0;70
+D00333;Mucosite;7.29;975;450;225;1;72;0;0;0;;0;0;9;12;9;0;9;12;9;1;1;1;1;1;1;25
+D00334;Mucosite;6.87;1087;150;75;2;58;3;1;0;;0;2;5;15;7;2;5;15;7;3;3;3;3;3;3;100
+D00341;Mucosite;6.45;2887;500;250;1;45;0;0;1;Yasmine;0;1;0;24;1;1;0;24;1;3;3;3;3;3;3;50
+D00342;Mucosite;6.88;3224;1450;725;2;57;0;1;0;;Diabetes e Hipercolestredemia ;1;0;30;1;1;0;30;1;0;0;0;0;0;0;0
+D00343;Mucosite;6.88;3419;3300;1650;1;49;1;0;0;;0;1;0;24;1;1;0;24;1;0;0;0;0;1;0;25
+D00352;Mucosite;6.22;1760;350;175;1;63;1;0;1;Diazepam;;;;;;;;;;;;;;;;
+D00353;Mucosite;6.5;418;1600;800;1;65;0;0;0;;0;;;;;;;;;;;;;;;
+D00355;Mucosite;7.88;2401;200;100;2;59;0;0;1;Rispiridona;Esquisofrenia ;0;1;30;1;0;1;30;1;0;0;1;1;1;1;25
+D00357;Mucosite;6.06;2283;300;150;2;64;0;1;1;;Depressão e Hipercolesteredemia ;0;2;21;2;0;2;21;2;0;0;1;0;1;0;50
+D00361;Mucosite;7.12;1413;400;200;1;68;0;0;0;;0;0;4;28;4;0;4;28;4;3;0;3;0;0;2;50
+D00517;Mucosite;6.21;3291;500;250;1;54;3;0;0;;0;;;;;;;;;1;0;4;3;1;2;50
+D00520;Mucosite;7.01;1937;1200;600;1;70;0;0;0;;0;2;1;;3;2;1;;3;0;0;0;0;0;0;0
+D00536;Mucosite;6.8;3846;750;375;2;55;0;1;0;;0;0;3;29;3;0;3;29;3;1;0;1;1;0;1;70
+D00537;Mucosite;6.65;4284;6630;3315;1;74;0;0;1;Sivastatina ;Hipercolesteredemia ;0;3;27;3;0;3;27;3;;;;;;;75
+D00538;Mucosite;6.74;2119;250;125;1;48;0;0;0;;0;1;0;31;1;1;0;31;1;1;1;1;1;1;1;75
+D00543;Mucosite;7.92;6522;1700;850;2;54;0;0;1;Varfine ácido folico pantoprazol lozartan buprepion;Tromboembolia pulmunar bilateral Trombofilia homizigotica MTHER ;0;1;31;1;0;1;31;1;0;1;1;1;1;1;0
+D00545;Mucosite;7.94;3612;1350;675;1;67;0;0;1;;Hipercolesteridemia ;1;9;14;9;1;9;14;9;;;;;;;
+D00306;Gengivite e Peri-implantite;7.15;2402;700;350;2;61;0;0;1;Sedoxil;Depressão ;1;6;18;7;1;6;18;7;3;0;1;3;0;1;50
+D00329;Gengivite e Peri-implantite;5.87;7427;200;100;1;58;1;1;1;Venoril;Hipercolesteridémia ;0;4;;4;0;4;;4;1;1;1;1;1;1;30
+D00331;Gengivite e Mucosite Peri-implantite;6.75;3501;2700;1350;2;54;3;1;0;;0;0;4;13;4;0;4;13;4;1;1;0;0;0;3;75
+D00307;Gengivite e Mucosite;7.17;4594;900;450;2;57;1;1;0;;0;0;3;23;7;0;3;23;7;1;0;1;1;0;1;75
+D00321;Gengivite e Mucosite;6.37;3858;3400;1700;1;51;1;1;1;Sivastatina ;Hipercolesteridémia ;0;1;31;1;0;1;31;1;3;3;3;3;3;3;3
+D00326;Gengivite e Mucosite;6.88;2991;2800;1400;1;39;1;0;1;Cipralex;Hepatite B ;4;4;0;8;4;4;0;8;3;3;3;1;1;1;100
+D00336;Gengivite e Mucosite;6.58;2127;750;375;2;63;3;1;1;Clorezepam ;Liquen Plano Colestrol Sinusite ;0;2;29;2;0;2;29;2;0;0;0;0;0;0;0
+D00346;Gengivite e Mucosite;6.11;3644;1350;675;2;75;0;1;1;HA;HA;0;2;19;2;0;2;19;2;1;0;1;2;0;1;50
+D00358;Gengivite e Mucosite;6.34;3710;800;400;1;61;0;0;1;;HA Depressão Hipercolesteredemia ;4;4;12;8;4;4;12;8;3;1;1;1;1;1;50
+D00539;Gengivite e Mucosite;6.32;1791;6320;3160;1;52;0;0;0;;0;0;3;28;3;0;3;28;3;;;;;;;
+D00542;Gengivite e Mucosite;7.33;4507;400;200;1;78;0;0;0;;0;0;1;1;25;0;1;1;25;1;1;1;1;1;1;1
+D00546;Gengivite e Mucosite;7.6;2701;850;425;1;37;0;0;0;;0;0;2;30;2;0;2;30;2;0;0;0;0;0;0;0
+D00304;Gengivite;7.02;2594;1100;550;2;56;0;1;0;;0;2;2;21;4;2;2;21;4;1;1;1;1;1;1;50
+D00327;Gengivite;7.56;2462;1200;600;1;55;1;1;0;;0;0;1;31;1;0;1;31;1;;;;;;;
+D00337;Gengivite;6.68;2032;500;250;2;39;1;1;0;;0;1;0;10;1;1;0;10;1;2;2;2;2;2;2;100
+D00351;Gengivite;7.18;3065;2350;1175;2;49;1;1;1;Exedrol;;;;;;;;;;;;;;;;
